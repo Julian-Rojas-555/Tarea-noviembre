@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Media Tarea</title>
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --card: #111827;
+      --border: #1f2937;
+      --accent: #00f0ff;
+      --accent2: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --glow: 0 0 20px rgba(0, 240, 255, 0.35);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(ellipse at 20% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .tech-line {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      margin: 1.2rem auto 0;
+      border-radius: 2px;
+      box-shadow: var(--glow);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 240, 255, 0.4);
+      box-shadow: var(--glow);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.6;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+    }
+
+    .section-title span {
+      font-size: 1.3rem;
+    }
+
+    /* Video */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Audio grid */
+    .audio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .audio-item {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .audio-item h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .audio-item audio {
+      width: 100%;
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #000;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 360px;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      font-size: 0.95rem;
+      color: white;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 240, 255, 0.5);
+      background: rgba(10, 14, 23, 0.75);
+      color: var(--accent);
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+      z-index: 10;
+      backdrop-filter: blur(6px);
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 240, 255, 0.2);
+      box-shadow: var(--glow);
+    }
+
+    .carousel-btn.prev { left: 14px; }
+    .carousel-btn.next { right: 14px; }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      transform: scale(1.2);
+    }
+
+    /* Footer note */
+    .note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .carousel-track { height: 260px; }
+      .container { padding: 1.5rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tech Media Tarea</h1>
+      <p>Espacio para video, audios e imágenes</p>
+      <div class="tech-line"></div>
+    </header>
+
+    <!-- ========== VIDEO ========== -->
+    <section class="card">
+      <div class="section-title">
+        <span>▶</span> Video principal
+      </div>
+      <div class="video-wrapper">
+        <!-- REEMPLAZA la src por tu video (mp4, webm...) -->
+        <video controls poster="">
+          <source src="/video/Perfil académico y profesional (1).mp4" type="video/mp4">
+          Tu navegador no soporta el elemento de video.
+        </video>
+      </div>
+    </section>
+
+    <!-- ========== AUDIOS ========== -->
+    <section class="card">
+      <div class="section-title">
+        <span>♫</span> Audios
+      </div>
+      <div class="audio-grid">
+        <!-- Audio 1 -->
+        <div class="audio-item">
+          <h3>Audio 1 Titulo del track</h3>
+          <!-- REEMPLAZA la src por tu archivo de audio -->
+          <audio controls>
+            <source src="/audios/audio 2/id=5fd80a048f3d420e8709efb4b6d092b4.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+          </audio>
+        </div>
+
+        <!-- Audio 2 -->
+        <div class="audio-item">
+          <h3>Audio 2 — Titulo del track</h3>
+          <!-- REEMPLAZA la src por tu archivo de audio -->
+          <audio controls>
+            <source src="/audios/audio 1/heygen-speech.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+          </audio>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CARRUSEL DE IMÁGENES ========== -->
+    <section class="card">
+      <div class="section-title">
+        <span>🖼</span> Galería (Carrusel)
+      </div>
+
+      <div class="carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- Imagen 1 -->
+          <div class="carousel-slide">
+            <!-- REEMPLAZA src por tu imagen -->
+            <img src="/img/Captura de pantalla 2026-11-10 214851.png" alt="Imagen 1">
+            <div class="carousel-caption">Imagen 1 — Descripción opcional</div>
+          </div>
+
+          <!-- Imagen 2 -->
+          <div class="carousel-slide">
+            <img src="/img/Julián Rojas Astúa — CV.png" alt="Imagen 2">
+            <div class="carousel-caption">Imagen 2 — Descripción opcional</div>
+          </div>
+
+          <!-- Imagen 3 -->
+          <div class="carousel-slide">
+            <img src="/img/Experience, education and skills.png" alt="Imagen 3">
+            <div class="carousel-caption">Imagen 3 — Descripción opcional</div>
+          </div>
+        </div>
+
+        <button class="carousel-btn prev" id="prevBtn" aria-label="Anterior">‹</button>
+        <button class="carousel-btn next" id="nextBtn" aria-label="Siguiente">›</button>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <p class="note">Reemplaza las rutas de los archivos (tu-video.mp4, tu-audio-1.mp3, etc.) por tus propios medios.</p>
+  </div>
+
+  <script>
+    // Carrusel simple
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    // Crear dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateCarousel() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateCarousel();
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Auto-play opcional (cada 5 segundos). Comenta la siguiente línea si no lo quieres.
+    // setInterval(nextSlide, 5000);
+  </script>
+</body>
+</html>
